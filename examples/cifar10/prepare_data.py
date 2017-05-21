@@ -7,12 +7,12 @@ Modified: 2016.09.19 Add scaler
 '''
 import numpy as np
 import config as cfg
-import cPickle
+import pickle
 from PIL import Image
 from sklearn import preprocessing
 
 def _load_file( path ):
-    data_lb = cPickle.load( open( path, 'rb' ) )
+    data_lb = pickle.load( open( path, 'rb' ) )
     return data_lb['data'], data_lb['labels']
 
 # load train & test data

@@ -4,27 +4,26 @@ AUTHOR:   Qiuqiang Kong
 Created:  2016.05.14
 --------------------------------------
 """
-import backend as K
-import objectives as obj
-from generators import BaseGenerator
-import serializations
-import metrics
+from . import backend as K
+from . import objectives as obj
+from .generators import BaseGenerator
+from . import serializations
+from . import metrics
 from abc import ABCMeta, abstractmethod
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 import time
-from supports import to_list, format_data_list
+from .supports import to_list, format_data_list
 import sys
 from inspect import isfunction
 
 
 
-class Callback(object):
+class Callback(object, metaclass=ABCMeta):
     """
     Callback is an abstract class
     """
-    __metaclass__ = ABCMeta
     
     def __init__(self, call_freq, type):
         assert (type=='epoch' or type=='iter'), "Error! type must be 'epoch' | 'iter'!"
@@ -85,7 +84,7 @@ class SaveModel(Callback):
             dump_path = self._dump_fd_ + '/md' + str(self._md_.iter_) + '_iters.p'
             
         serializations.save(self._md_, dump_path)
-        print "    Save to " + dump_path + " successfully!\n"
+        print("    Save to " + dump_path + " successfully!\n")
         
         
 # 
@@ -331,7 +330,7 @@ class Validation(Callback):
         self._md_ = md
         
         # memory usage
-        print "Callback", 
+        print("Callback", end=' ') 
         self._md_._show_memory_usage(self._md_.effective_layers_, self._batch_size_)
         
  
@@ -346,7 +345,7 @@ class Validation(Callback):
         self._r_['tr_time'] = self._md_.tr_time_
         if self._dump_path_ is not None:
             pickle.dump(self._r_, open(self._dump_path_, 'wb'))
-        print
+        print()
         
     def _evaluate(self, x, y, eval_type):
         # get metric losses node
@@ -368,10 +367,10 @@ class Validation(Callback):
         
         # compile evaluation function
         if not hasattr(self, '_f_evaluate'):
-            print 'compiling evaluation function ..'
+            print('compiling evaluation function ..')
             inputs = self._md_.in_nodes_ + self._md_.gt_nodes_ + [self._md_.tr_phase_node_]
             self._f_evaluate = K.function_no_given(inputs, loss_nodes)
-            print 'compile finished. '
+            print('compile finished. ')
         
         # calculate metric values
         t1 = time.time()
@@ -416,7 +415,7 @@ class Validation(Callback):
             batch_num = int(np.ceil(float(N) / self._batch_size_))
             
             # evaluate for each batch
-            for i1 in xrange(batch_num):
+            for i1 in range(batch_num):
                 curr_batch_size = min((i1+1)*self._batch_size_, N) - i1*self._batch_size_
                 batch_x = [e[i1*self._batch_size_ : min((i1+1)*self._batch_size_, N)] for e in x]
                 batch_y = [e[i1*self._batch_size_ : min((i1+1)*self._batch_size_, N)] for e in y]
@@ -429,11 +428,11 @@ class Validation(Callback):
         
     def _print_time_results(self, eval_type, metrics, metric_vals, time):
         chs = "    "
-        for i1 in xrange(len(metrics)):
+        for i1 in range(len(metrics)):
             metric_name = self._to_str(metrics[i1])
             chs += eval_type + "_" + metric_name + ": %.5f" % metric_vals[i1] + "    | "
         chs += "time: %.2f" % time
-        print chs
+        print(chs)
         
     def _to_str(self, a):
         if type(a) is str:

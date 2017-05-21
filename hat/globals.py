@@ -5,7 +5,7 @@ Created:  2016.05.20
 Modified: 2016.07.31 Fix bug of reset_id_to_zero()
 --------------------------------------
 '''
-import backend as K
+from . import backend as K
 
 # record current id of layer
 # Every layer has a unique id. 

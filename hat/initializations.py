@@ -6,7 +6,7 @@ Modified: 2017.02.19
 --------------------------------------
 """
 import numpy as np
-import backend as K
+from . import backend as K
 
 
 def zeros(shape):

@@ -6,13 +6,13 @@ Modified: -
 --------------------------------------
 '''
 # from supports import BFT
-import cPickle
-from layers.core import *
-from layers.cnn import *
-from layers.pooling import *
-from layers.rnn import *
-from layers.normalization import *
-from models import *
+import pickle
+from .layers.core import *
+from .layers.cnn import *
+from .layers.pooling import *
+from .layers.rnn import *
+from .layers.normalization import *
+from .models import *
 
 
 def get_model_data_seg(md):
@@ -55,7 +55,7 @@ def save(md, path):
     md_data_seg = get_model_data_seg(md)
         
     # dump
-    cPickle.dump(md_data_seg, open(path, 'wb'), protocol=cPickle.HIGHEST_PROTOCOL)
+    pickle.dump(md_data_seg, open(path, 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
         
 
 def load(path):
@@ -68,7 +68,7 @@ def load(path):
                 return layer
     
     # load serialized data
-    md_data_seg = cPickle.load(open(path, 'rb'))
+    md_data_seg = pickle.load(open(path, 'rb'))
     
     md_info = md_data_seg['info']
     md_func = globals().get(md_data_seg['class_name'])

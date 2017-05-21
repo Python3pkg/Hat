@@ -1,4 +1,4 @@
-from core import Layer
+from .core import Layer
 from ..import backend as K
 
 '''

@@ -6,7 +6,7 @@ from ..import activations
 from ..import regularizations 
 from ..globals import new_id
 from ..supports import to_tuple, to_list, is_one_element, is_elem_equal
-from core import Layer
+from .core import Layer
 
 
 class BN(Layer):
@@ -166,7 +166,7 @@ class BN(Layer):
     # get normlize shape
     def _get_bn_param_shape(self, out_shape, axis):
         bn_param_shape = ()
-        for i1 in xrange(len(out_shape)):
+        for i1 in range(len(out_shape)):
             if i1 not in axis:
                 bn_param_shape += (out_shape[i1],)
         return bn_param_shape

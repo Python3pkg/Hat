@@ -6,7 +6,7 @@ Modified: 2016.08.02 modify name sh_variable to shared
 --------------------------------------
 """
 import numpy as np
-import backend as K
+from . import backend as K
 
 
 
@@ -17,7 +17,7 @@ class Base(object):
     def _reset_memory(self, memory):
         """Reset the memory to zero. 
         """
-        for i1 in xrange(len(memory)):
+        for i1 in range(len(memory)):
             K.set_value(memory[i1], np.zeros_like(memory[i1].get_value()))
             
 

@@ -1,4 +1,4 @@
-import backend as K
+from . import backend as K
 import numpy as np
 
 

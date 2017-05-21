@@ -6,15 +6,13 @@ Modified: 2016.08.02 add info(), load_from_info()
 --------------------------------------
 '''
 from abc import ABCMeta, abstractmethod, abstractproperty
-import backend as K
+from . import backend as K
 
 
 '''
 Base class for Regularization
 '''
-class Regularization( object ):
-    __metaclass__ = ABCMeta
-     
+class Regularization( object, metaclass=ABCMeta ):
     @abstractmethod
     def get_reg():
         pass

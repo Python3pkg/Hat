@@ -25,7 +25,7 @@ import pickle
 # prepare data
 def GetXy( data, agg_num ):
     X, y = [], []
-    for i1 in xrange( agg_num, len(data) ):
+    for i1 in range( agg_num, len(data) ):
         ids = np.array( [ char_to_ix[ch] for ch in data[i1-agg_num:i1] ] )
         x = sparse_to_categorical( ids, vocab_size )
         X.append(x)
@@ -50,10 +50,10 @@ class GenerateChar( Callback ):
         x = None
         chs = ''
         N = 200     # num of chars to be generated
-        for i1 in xrange( N ):
+        for i1 in range( N ):
             ix, x = self._generate(x)
             chs += self._ix_to_char[ix]
-        print '\n--------------\n', chs, '\n--------------'
+        print('\n--------------\n', chs, '\n--------------')
         
     def _generate( self, x ):
         if x is None:
@@ -74,7 +74,7 @@ agg_num = 20     # concatenate frames
 data = open('input.txt', 'r').read() # should be simple plain text file
 chars = list(set(data))
 data_size, vocab_size = len(data), len(chars)
-print 'data has %d characters, %d unique.' % (data_size, vocab_size)
+print('data has %d characters, %d unique.' % (data_size, vocab_size))
 char_to_ix = { ch:i for i,ch in enumerate(chars) }
 ix_to_char = { i:ch for i,ch in enumerate(chars) }
 
@@ -82,7 +82,7 @@ tr_data = data[0:-1000]
 te_data = data[-1000:]
 tr_X, tr_y = GetXy( tr_data, agg_num )
 te_X, te_y = GetXy( te_data, agg_num )
-print 'shape tr_X:', tr_X.shape, 'shape tr_y:', tr_y.shape
+print('shape tr_X:', tr_X.shape, 'shape tr_y:', tr_y.shape)
 
 ### build model
 md = Sequential()

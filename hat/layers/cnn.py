@@ -6,7 +6,7 @@ Modified: 2016.05.26 Add Convolution1D (TDNN)
           2016.08.03 Add info_(), load_from_info()
 --------------------------------------
 """
-from core import Layer, Lambda
+from .core import Layer, Lambda
 from ..globals import new_id
 from .. import backend as K
 from .. import initializations

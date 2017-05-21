@@ -14,16 +14,16 @@ from ..import regularizations
 from ..globals import new_id
 from ..supports import to_tuple, to_list, is_one_element, is_elem_equal
 from abc import ABCMeta, abstractmethod, abstractproperty
+import collections
 
 
 
-class Layer(object):
+class Layer(object, metaclass=ABCMeta):
     """The base class of all Layer Classes
     
     Args:
       kwargs: dictionary. 
     """
-    __metaclass__ = ABCMeta
     
     def __init__(self , **kwargs):
         # self._check_kwargs_(kwargs)
@@ -442,7 +442,7 @@ class Activation(Layer):
     def _get_output(self, input):
         if type(self._act_func) is str:
             return activations.get(self._act_func)(input)
-        if callable(self._act_func):
+        if isinstance(self._act_func, collections.Callable):
             return self._act_func(input)
         
     
@@ -494,7 +494,7 @@ class Lambda(Layer):
     # ---------- Private methods ------------
     
     def _get_pseudo_test_num(self):
-        if 'pseudo_test_num' in self._kwargs_.keys():
+        if 'pseudo_test_num' in list(self._kwargs_.keys()):
             return self._kwargs_['pseudo_test_num']
         else:
             return 1

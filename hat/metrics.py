@@ -5,7 +5,7 @@ Created:  2016.05.13
 Modified: 2016.05.21 Add prec_recall_fvalue
 --------------------------------------
 '''
-import backend as K
+from . import backend as K
 import numpy as np
 
 _EPSILON = 1e-6     # when set to 1e-8, binary_crossentropy underflow
@@ -89,7 +89,7 @@ def confusion_matrix(p_y_pred, y_gt):
     sp_y_pred = np.argmax(p_y_pred, axis=-1)
     sp_y_gt = np.argmax(y_gt, axis=-1)
     confM = np.zeros((n_out, n_out))
-    for i1 in xrange(N):
+    for i1 in range(N):
         confM[ sp_y_gt[i1], sp_y_pred[i1] ] += 1
     return confM
     

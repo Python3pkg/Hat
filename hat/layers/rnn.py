@@ -7,7 +7,7 @@ Modified: 2016.05.21 Modify bug in LSTM
           2016.08.26 Modify SimpleRnn to high dimension version
 --------------------------------------
 '''
-from core import Layer
+from .core import Layer
 from ..globals import new_id
 from .. import backend as K
 from .. import initializations
@@ -18,9 +18,7 @@ import numpy as np
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 
-class RnnBase(Layer):
-    __metaclass__ = ABCMeta
-
+class RnnBase(Layer, metaclass=ABCMeta):
     def __init__(self, kernel_init_type='glorot_uniform', 
                   recurrent_init_type='orthogonal', 
                   return_sequences=False, 

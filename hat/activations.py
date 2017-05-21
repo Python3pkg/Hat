@@ -6,7 +6,7 @@ Modified: -
 --------------------------------------
 """
 import numpy as np
-import backend as K
+from . import backend as K
 
 def linear( x ):
     return x

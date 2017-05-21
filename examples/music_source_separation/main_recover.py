@@ -42,8 +42,8 @@ pp_data.write_wav( s_out_chn1, 16000., cfg.results_fd + '/' + 'recover_chn1.wav'
 # evaluate sdr, sir, sar, perm
 # chn0
 sdr, sir, sar, perm = bss_eval_sources( s_gt_chn0, s_out_chn0 )
-print 'chn0: sdr, sir, sar, perm:', sdr, sir, sar, perm
+print('chn0: sdr, sir, sar, perm:', sdr, sir, sar, perm)
 
 # chn1
 sdr, sir, sar, perm = bss_eval_sources( s_gt_chn1, s_out_chn1 )
-print 'chn1: sdr, sir, sar, perm:', sdr, sir, sar, perm
+print('chn1: sdr, sir, sar, perm:', sdr, sir, sar, perm)

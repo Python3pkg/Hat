@@ -5,7 +5,7 @@ Created:  2016.05.22
 Modified: 2016.05.27 Add MaxPool1D
 --------------------------------------
 '''
-from core import Layer, Lambda
+from .core import Layer, Lambda
 from ..globals import new_id
 from .. import backend as K
 from .. import initializations

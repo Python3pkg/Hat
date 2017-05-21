@@ -51,8 +51,8 @@ n_out = 10
 # sparse label to 1-of-K categorical label
 tr_y = sparse_to_categorical(tr_y, n_out)
 te_y = sparse_to_categorical(te_y, n_out)
-print tr_X.shape
-print tr_y.shape
+print(tr_X.shape)
+print(tr_y.shape)
 
 def add_layers( inputs ):
     return inputs[0] +  inputs[1]
@@ -66,7 +66,7 @@ def mean_pool( input ):
 def add_n_bottleneck_blocks( in_layer, n_outfmaps, n_repeat, is_first_layer ):
     assert n_outfmaps%4==0
     a0 = in_layer
-    for i1 in xrange( n_repeat ):
+    for i1 in range( n_repeat ):
         if i1==0:
             if is_first_layer is True: 
                 strides=(1,1)

@@ -48,8 +48,8 @@ n_out = 10
 # sparse label to 1-of-K categorical label
 tr_y = sparse_to_categorical(tr_y, n_out)
 te_y = sparse_to_categorical(te_y, n_out)
-print tr_X.shape
-print tr_y.shape
+print(tr_X.shape)
+print(tr_y.shape)
 
 
 ### Build model

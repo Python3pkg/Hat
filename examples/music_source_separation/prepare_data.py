@@ -8,7 +8,7 @@ Modified: -
 import numpy as np
 import os
 from scipy import signal
-import cPickle
+import pickle
 import config as cfg
 import wavio
 import matplotlib.pyplot as plt
@@ -38,7 +38,7 @@ def CalculateAllSpectrogram( wavs_fd, fe_fd ):
     names = sorted( names )
     cnt = 0
     for na in names:      
-        print cnt, na
+        print(cnt, na)
         path = wavs_fd + '/' + na
         data, fs = readwav( path )
         chn0 = data[:,0]
@@ -51,9 +51,9 @@ def CalculateAllSpectrogram( wavs_fd, fe_fd ):
         X_mix = GetSpectrogram( mix )
         
         # dump
-        cPickle.dump( X_chn0, open( fe_fd+'/chn0/'+na[0:-4]+'.p', 'wb' ), protocol=cPickle.HIGHEST_PROTOCOL )
-        cPickle.dump( X_chn1, open( fe_fd+'/chn1/'+na[0:-4]+'.p', 'wb' ), protocol=cPickle.HIGHEST_PROTOCOL )
-        cPickle.dump( X_mix, open( fe_fd+'/mix/'+na[0:-4]+'.p', 'wb' ), protocol=cPickle.HIGHEST_PROTOCOL )
+        pickle.dump( X_chn0, open( fe_fd+'/chn0/'+na[0:-4]+'.p', 'wb' ), protocol=pickle.HIGHEST_PROTOCOL )
+        pickle.dump( X_chn1, open( fe_fd+'/chn1/'+na[0:-4]+'.p', 'wb' ), protocol=pickle.HIGHEST_PROTOCOL )
+        pickle.dump( X_mix, open( fe_fd+'/mix/'+na[0:-4]+'.p', 'wb' ), protocol=pickle.HIGHEST_PROTOCOL )
 
         cnt += 1
 
@@ -81,7 +81,7 @@ def LoadData( fe_fd, agg_num, hop, na_list ):
     X3d_list = []
     for na in mix_names:
         if na_in_na_list( na, na_list ):
-            X = cPickle.load( open( fe_fd + '/mix/' + na, 'rb' ) )
+            X = pickle.load( open( fe_fd + '/mix/' + na, 'rb' ) )
             X2d_list.append( X )
             X_pad = pad_zero_pre( X, agg_num-1 )
             X3d = mat_2d_to_3d( X_pad, agg_num, hop )
@@ -91,7 +91,7 @@ def LoadData( fe_fd, agg_num, hop, na_list ):
     y3d_chn0_list = []
     for na in chn0_names:
         if na_in_na_list( na, na_list ):
-            X = cPickle.load( open( fe_fd + '/chn0/' + na, 'rb' ) )
+            X = pickle.load( open( fe_fd + '/chn0/' + na, 'rb' ) )
             y2d_chn0_list.append( X )
             X_pad = pad_zero_pre( X, agg_num-1 )
             y3d = mat_2d_to_3d( X_pad, agg_num, hop )
@@ -102,7 +102,7 @@ def LoadData( fe_fd, agg_num, hop, na_list ):
     y3d_chn1_list = []
     for na in chn1_names:
         if na_in_na_list( na, na_list ):
-            X = cPickle.load( open( fe_fd + '/chn1/' + na, 'rb' ) )
+            X = pickle.load( open( fe_fd + '/chn1/' + na, 'rb' ) )
             y2d_chn1_list.append( X )
             X_pad = pad_zero_pre( X, agg_num-1 )
             y3d = mat_2d_to_3d( X_pad, agg_num, hop )

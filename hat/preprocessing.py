@@ -11,7 +11,7 @@ Modified: 2016.05.27 Modify pad_trunc_seqs
 --------------------------------------
 '''
 import numpy as np
-from supports import to_list
+from .supports import to_list
 
 
 # truncate seq or pad with 0, input can be list or np.ndarray

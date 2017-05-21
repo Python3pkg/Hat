@@ -7,7 +7,7 @@ Modified: 2016.05.27 modify return format
 --------------------------------------
 '''
 import os
-import cPickle
+import pickle
 import numpy as np
 
 '''
@@ -20,7 +20,7 @@ def load_data(path="imdb.pkl", nb_words=None, skip_top=0,
 
     if not os.path.isfile(path):
         from six.moves import urllib
-        print 'downloading data ... (15.3 Mb)'
+        print('downloading data ... (15.3 Mb)')
         urllib.request.urlretrieve( 'https://s3.amazonaws.com/text-datasets/imdb.pkl', path )
 
     if path.endswith(".gz"):
@@ -28,7 +28,7 @@ def load_data(path="imdb.pkl", nb_words=None, skip_top=0,
     else:
         f = open(path, 'rb')
 
-    X, labels = cPickle.load(f)
+    X, labels = pickle.load(f)
     f.close()
 
     np.random.seed(seed)

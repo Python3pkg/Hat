@@ -14,7 +14,7 @@ W = md.find_layer( 'a1' ).W_
 
 # plot autoencoder learned weights
 num_to_plot = 10
-for i1 in xrange( num_to_plot ):
+for i1 in range( num_to_plot ):
     w = W[:,i1].reshape((28,28))
     plt.matshow(w)
     plt.show()

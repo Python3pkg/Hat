@@ -162,7 +162,7 @@ def broadcast(x, x_ndim, bc_axis ):
     bc_ndim = x_ndim + len(bc_axis)
     shuffle_str = ['x',] * bc_ndim
     cnt = 0
-    for i1 in xrange(bc_ndim):
+    for i1 in range(bc_ndim):
         if i1 not in bc_axis:
             shuffle_str[i1] = cnt
             cnt += 1

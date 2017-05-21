@@ -48,7 +48,7 @@ class ImageAugmentation(BaseTransformation):
         x_pad[:, :, shift:height+shift, shift:width+shift] = x
         rand_shift = np.random.randint(low=0, high=shift*2, size=(n_samples, 2))
         x_new = np.zeros_like(x)
-        for n in xrange(n_samples):
+        for n in range(n_samples):
             [row_bgn, col_bgn] = rand_shift[n]
             x_new[n] = x_pad[n, :, row_bgn:row_bgn+height, col_bgn:col_bgn+width]
             

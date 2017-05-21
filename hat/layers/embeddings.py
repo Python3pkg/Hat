@@ -5,7 +5,7 @@ Created:  2016.05.28
 Modified: -
 --------------------------------------
 '''
-from core import Layer
+from .core import Layer
 from ..globals import new_id
 from .. import backend as K
 from .. import initializations

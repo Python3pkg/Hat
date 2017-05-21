@@ -8,7 +8,7 @@ Modified: -
 import numpy as np
 import sys
 import time
-import backend as K
+from . import backend as K
 
 ### basic
 # data to tuple
@@ -76,4 +76,4 @@ class Timer(object):
         now_time = time.time()
         f = "{0:<30} {1:<10}"
         time_diff = now_time - self.bgn_time
-        print f.format(string, str(time_diff)+"s")
+        print(f.format(string, str(time_diff)+"s"))

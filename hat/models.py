@@ -7,14 +7,14 @@ Modified: 2017.02.19
 '''
 
 import sys
-from supports import to_list, shuffle, format_data_list, memory_usage, Timer
+from .supports import to_list, shuffle, format_data_list, memory_usage, Timer
 import numpy as np
-import supports
-from optimizers import *
-from globals import reset_id_to_zero
-import activations
-import objectives as obj
-import backend as K
+from . import supports
+from .optimizers import *
+from .globals import reset_id_to_zero
+from . import activations
+from . import objectives as obj
+from . import backend as K
 import time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -102,7 +102,7 @@ class Model(object):
         """
         from collections import Counter
         names = [layer.name_ for layer in effective_layers]
-        duplicated_names = [name for name,v in Counter(names).items() if v>1]
+        duplicated_names = [name for name,v in list(Counter(names).items()) if v>1]
         if duplicated_names:
             err_str = "Layers must have unique names! Names "
             for name in duplicated_names: err_str = err_str + "'" + name + "' "
@@ -166,7 +166,7 @@ class Model(object):
         n_byte_total = n_data_total * 4   # float32 
         n_byte_total *= 2                 # forward & backward
         f = "{0:<30} {1:<10}"
-        print f.format("total memory usage:", str(n_byte_total/1e6)+"Mb")
+        print(f.format("total memory usage:", str(n_byte_total/1e6)+"Mb"))
         
     def _print_progress(self, epoch, batch_num, curr_batch_num):
         sys.stdout.write("%d-th epoch %d%% \r" % (epoch, float(curr_batch_num)/float(batch_num)*100))
@@ -224,28 +224,28 @@ class Model(object):
             return string[:-2]
         
         if verbose==1:
-            print '---------- summary -----------'
+            print('---------- summary -----------')
             f = "{0:<20} {1:<10} {2:<25} {3:<20} {4:<15} {5:<20} {6:<20}"
-            print f.format('layer_name', 'layer_id', 'prev layers', 'trainable_params', 'n_params', 'out_shape', 'trainable')
+            print(f.format('layer_name', 'layer_id', 'prev layers', 'trainable_params', 'n_params', 'out_shape', 'trainable'))
             for row in self.trainable_table_:
                 [index, layer, trainable] = row
                 prev_layer_names = [prev_layer.name_ for prev_layer in layer.prevs_]
                 n_params = self._n_layer_params(layer)
-                print f.format(layer.name_, layer.id_, prev_layer_names, 
-                            _get_params_str(layer.params_), n_params, str(layer.out_shape_), trainable)
-            print "\nTotal trainable params:", self._n_model_trainable_params(), "\n"
+                print(f.format(layer.name_, layer.id_, prev_layer_names, 
+                            _get_params_str(layer.params_), n_params, str(layer.out_shape_), trainable))
+            print("\nTotal trainable params:", self._n_model_trainable_params(), "\n")
         
         elif verbose==2:
-            print '---------- summary -----------'
+            print('---------- summary -----------')
             f = "{0:<10} {1:<20} {2:<10} {3:<25} {4:<20} {5:<15} {6:<20} {7:<20}"
-            print f.format('tb_index', 'layer_name', 'layer_id', 'prev layers', 'trainable_params', 'n_params', 'out_shape', 'trainable')
+            print(f.format('tb_index', 'layer_name', 'layer_id', 'prev layers', 'trainable_params', 'n_params', 'out_shape', 'trainable'))
             for row in self.trainable_table_:
                 [index, layer, trainable] = row
                 prev_layer_names = [prev_layer.name_ for prev_layer in layer.prevs_]
                 n_params = self._n_layer_params(layer)
-                print f.format(index, layer.name_, layer.id_, prev_layer_names, 
-                            _get_params_str(layer.params_), n_params, str(layer.out_shape_), trainable)
-            print "\nTotal trainable params:", self._n_model_trainable_params(), "\n"
+                print(f.format(index, layer.name_, layer.id_, prev_layer_names, 
+                            _get_params_str(layer.params_), n_params, str(layer.out_shape_), trainable))
+            print("\nTotal trainable params:", self._n_model_trainable_params(), "\n")
         
     def get_effective_layers(self, in_layers, out_layers):
         """Return intersection of forward_visited and backward_visited layers. 
@@ -421,7 +421,7 @@ class Model(object):
         y = format_data_list(y)
         
         # Train memory usage
-        print "Training", 
+        print("Training", end=' ') 
         self._show_memory_usage(self._effective_layers_, batch_size)
         
         # Compile optimization function
@@ -444,7 +444,7 @@ class Model(object):
         max_epoch = n_epochs + self.epoch_
         
         # Callback
-        print '\n', self.epoch_, 'th epoch:'
+        print('\n', self.epoch_, 'th epoch:')
         for callback in callbacks:
             if (self.epoch_ % callback.call_freq_ == 0):
                 callback.call()
@@ -456,7 +456,7 @@ class Model(object):
             # Train
             t1 = time.time()
             loss_list = []
-            for i2 in xrange(batch_num):
+            for i2 in range(batch_num):
                 batch_x = [e[i2*batch_size : min((i2+1)*batch_size, N)] for e in x]
                 batch_y = [e[i2*batch_size : min((i2+1)*batch_size, N)] for e in y]
                 if transformer: 
@@ -472,7 +472,7 @@ class Model(object):
                 
             t2 = time.time()
             self._tr_time_ += (t2 - t1)            
-            if verbose!=0: print '\n', '    tr_time: ', "%.2f" % (t2-t1), 's'          # print an empty line
+            if verbose!=0: print('\n', '    tr_time: ', "%.2f" % (t2-t1), 's')          # print an empty line
             self._epoch_ += 1
             
             # Callback
@@ -522,7 +522,7 @@ class Model(object):
         
         for callback in callbacks:
             if (self.iter_ % callback.call_freq_ == 0):
-                print self.iter_, 'th iteration:'
+                print(self.iter_, 'th iteration:')
                 callback.call()
         
         # Train
@@ -572,7 +572,7 @@ class Model(object):
             if not self._f_optimize_:
                 # Train memory usage
                 batch_size = len(batch_x[0])
-                print "Training", 
+                print("Training", end=' ') 
                 self._show_memory_usage(self._effective_layers_, batch_size)
                 
                 timer = Timer()
@@ -596,7 +596,7 @@ class Model(object):
             # Callback
             for callback in callbacks:
                 if (self.iter_ % callback.call_freq_ == 0):
-                    print
+                    print()
                     callback.call()
             
             in_list = batch_x + batch_y + [1.]      # training phase
@@ -672,16 +672,16 @@ class Model(object):
             batch_num = int(np.ceil(float(N) / batch_size))
             n_out_nodes = len(self.out_nodes_)
             y_out = []      # list of batch_y_out
-            for i1 in xrange(batch_num):
+            for i1 in range(batch_num):
                 in_list = [e[i1*batch_size : min((i1+1)*batch_size, N)] for e in z] + [tr_phase]
                 batch_y_out = func(*in_list)    # list of ndarray
                 y_out.append(batch_y_out)
 
             def _reform(y_out):
                 outs = []
-                for i1 in xrange(len(y_out[0])):
+                for i1 in range(len(y_out[0])):
                     tmp_list = []
-                    for j1 in xrange(len(y_out)):
+                    for j1 in range(len(y_out)):
                         tmp_list.append(y_out[j1][i1])
                     out = np.concatenate(tmp_list, axis=0)
                     outs.append(out)
